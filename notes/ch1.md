@@ -84,7 +84,6 @@ Instruction cycle: _fetch, (decode), execute_
 
 CPU Workflow - with interrupts:
 
-````c
 ```c
 while(not HALT) {
   IR = mem[PC]; # IR = Instruction Register
@@ -95,7 +94,7 @@ while(not HALT) {
     loadPC(IRQ); # Hopper til Interrupt-rutine
   }
 }
-````
+```
 
 I/O devices will generate an _interrupt_ to the CPU when they want the
 attention. Then the CPU will stop what it's doing and execute a specific piece
@@ -126,3 +125,97 @@ addresses decrease; such that the stack and heap don't collide. If the both meet
 ## 1.2 Software
 
 ### 1.2.1 Compiling
+
+**Abstraction levels** refer to the shift between programming languages
+created for humans and those created for machines.
+
+### 1.2.2 _gcc_
+
+Is our compiler and will output assembly code with the `-S` flag.
+
+### 1.2.3 32 vs 64 bit
+
+Difference in instructions (q(quadword) suffix for 64-bit, l (long) suffix
+for 32-bit) and registers (`rbp` for 64-bit, `ebp` for 32-bit).
+
+### 1.2.4 Syntax
+
+Assembly code is translated to machine code by the assembler (e.g. _GAS_)
+
+```asm
+  file " asm -0 .c " # DIRECTIVES
+  .text
+  .globl main
+
+  main : # LABEL
+
+  push rbp # INSTRUCTIONS
+  mov rsp , rbp
+  mov 0 , eax
+  ret
+```
+
+- `file "asm-0.c"` - meta info that says which source code is the origin of
+  this code.
+- `.text` - states that the following is the program code
+- `.globl main` - makes the `main` function visible to the linker
+- `main:` - a label that can be used to reference this location in the code
+- `push rbp` - puts the baste pointer (aka frame pointer) on the stack
+- `mov rsp, rbp` - sets base pointer (register rbp) equal to stack pointer
+  (register rsp)
+- `mov 0, eax` - sets a "general purpose register" (eax) to 0 (return value
+  of main function)
+- `ret` - pops the return address from the top of the stack into IP which
+  causes the program to continue from where it was called
+
+Instruction/opcode is called a mnemonic
+mnemonic suffix b (byte), w (word), l (long), q (quadword)
+operand is an argument
+operand prefix % is a register, $ is a constant (a number)
+address calculation `movl -4(%ebp), %eax`
+“load what is located in address(ebp − 4) into eax”
+
+### 1.2.5 Examples
+
+_parentheses around a register means that we are accessing memory at the
+address which is stored in the register_
+
+_arguments seven or higher are pushed onto the stack instead of being stored in
+registers (e.g. edi, esi)_
+
+The area of the stack that a function uses is called a **stack frame**, and
+consists of: _return address, arguments, local variables, saved registers_ -
+(between the base pointer and the stack pointer)
+
+## 1.3 CPU terminology
+
+Important terms:
+
+- Clock speed/rate - the number of clock cycles per second
+- Pipeline, Superscalar - techniques to execute multiple instructions at the same time
+- Machine instructions into Micro operations - the CPU breaks down the machine instructions into micro operations
+- Out-of-order execution - the CPU can execute instructions out of order
+
+1GHz = 1 billion cycles per second = each such pulse pushes the execution of the
+instruction one step further
+
+### 1.3.1 Pipeline/Superscalar
+
+![](assets/pipelined-superscalar-steps.png)
+
+The execution of an instruction is broken down into multiple steps (micro
+operations). I.e. add two numbers:
+
+1. (fetch) Fetch the instruction from memory
+2. (decode) Decode it, what instruction is it?
+3. (decode) Place numbers to be added in the correct registers
+4. (execute) Add the numbers
+5. (execute) Store the result in a register
+
+To make CPU as efficient as possible, one therefore creates separated units in
+which each of these micro operations are performed (_(a)_ in figure above,
+**pipeline**)
+
+For even more efficient approach, one can duplicate these units, so that multiple instructions can be executed at the same time (_(b)_ in figure above, **Superscalar**)
+
+Modern computers are commonly Superscalar CPUs.

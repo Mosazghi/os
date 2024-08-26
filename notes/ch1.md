@@ -219,3 +219,93 @@ which each of these micro operations are performed (_(a)_ in figure above,
 For even more efficient approach, one can duplicate these units, so that multiple instructions can be executed at the same time (_(b)_ in figure above, **Superscalar**)
 
 Modern computers are commonly Superscalar CPUs.
+
+Such CPU can also execute instructions **out-of-order-execution**, if it can be done without affecting the result.
+
+The control logic tries to keep most of the execution units busy as much as possible.
+
+Modern processors also perform **speculative execution**, i.e. they try to guess
+what will be the outcome of **branch instructions** (e.g. a jump instruction)
+and then reverse if it went wrong.
+
+Both out-of-order-execution and speculative execution are techniques to increase
+performance.
+
+![](assets/four-different-programs-smt/ht.png)
+
+An extension of the superscalar concept is **Simultaneous Multi-Threading
+(SMT)** or **Hyper-Threading (HT)**. This is a technique where the CPU appears to the OS as two separate CPUs. The CPU has two sets of registers and can execute two threads at the same time. This is done by duplicating the pipeline stages and the execution units. This technique is used in Intel's CPUs.
+
+## 1.4 Cache
+
+Accessing RAM is incredibly slow compared to the speed of the CPU registers. The
+hardware will try to go RAM when it really has to. It can do this by two
+means:
+
+1. "_remember_" the data/instructions that has recently been fetched from RAM
+   (temporal locality)
+2. fetch more than just the bytes you need from RAM and "remember" this as well
+
+**The place we "remember" this is the CPU cache. (much faster, but not as fast
+as register)**
+
+### 1.4.1 Why Cache?
+
+![](assets/cache-access-times.png)
+
+The _bottleneck_ that occurs between the speed of the CPU and the time it takes
+to do it memory access is often referred to as the **von Neumann bottleneck**,
+and in practice solved with the cache mechanism.
+
+CPU caches have multiple levels (commonly **L1, L2, L3**), and sometimes a level
+of the cache is split into two parts, one for data and one for instructions
+(L1).
+
+Smallest we can retrieve from memory is a Byte, but we never cache just a single
+Byte, we cache a **cache line** (64 Bytes in modern CPU).
+
+**Cache makes programs run faster** because instructions are frequently reused
+(co-located in time) while data is often accessed blockwise (co-located in
+space)
+
+_Zooming in on memory_:
+
+![](assets/zoom-in-on-mem.png)
+
+_cache line_ - typically 64 bytes
+
+### 1.4.2 Write Policies
+
+**Write-through** - write to cache line and immediately to memory
+**Write-back** - write to cache line and mark cache line as _dirty_
+
+With _write-back_ the data is only written to memory when the cache line is to
+be over-written by another or in other cases such as **context switch** (to
+replace the running program on the CPU: stop the program, save the program's
+state and start another program).
+
+A challenge arises when there are multiple CPU cores present: _what if they have
+cached the same data? How does one processor core know that no other processor core has written to same the data it has cached?_ This is solved by **cache coherence protocols** like MESI (but gets more complex and expensive).
+
+#### Write-through
+
+![](assets/write-through.png)
+
+#### Write-back
+
+![](assets/write-back.png)
+With write-back caching, we have to check whether the cache block (cache line) we
+want to write to is dirty, i.e. contains data that has not been written to the next level data
+storage (RAM or a slower cache level) yet. This applies to both read and write requests.
+Write through caching is the simplest and safest (since caching will only contain a copy
+of data that exists elsewhere), but if we want the system to give good performance for
+write requests (which we in most cases do), then we must use write-back caching
+
+_When context switching, the cache is full of data from the previous program,
+and it takes time to replace it with new data (-> we need to "warm up the cache"), hence we say that a context switch is expensive_
+
+## 1.5 Review Questions
+
+1. What is a "Directive" in Assembly code?
+
+-

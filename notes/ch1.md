@@ -307,5 +307,51 @@ and it takes time to replace it with new data (-> we need to "warm up the cache"
 ## 1.5 Review Questions
 
 1. What is a "Directive" in Assembly code?
+   -> They are meta-information that the assembler uses to understand the code (e.g. `.text`, `.globl main`)
+   -> One important use could be declaring or reserving memory variables.
+2. Superscalar and pipeline
+   -> pipeline means breaking down execution of an instruction into multiple steps (micro operations)
+   -> superscalar means duplicating these units so that multiple instructions can be executed at the same time
+3. What does a C-compiler like gcc do? What is the difference between C-code, assembly code and machine code?
+   -> gcc compiles C code into assembly code, which is then assembled into machine code by the assembler.
 
--
+4. (KEY PROBLEM) Based on the examples of C-code and assembly code we have
+   covered in this chapter, explain what each line in the following assembly code
+   does:
+
+```asm
+01 .text
+02 .globl main
+03 main:
+04 pushq %rbp
+05 movq %rsp, %rbp
+06 movl $0, -4(%rbp)
+07 jmp .L2
+08 .L3:
+09 addl $1, -4(%rbp)
+10 addl $1, -4(%rbp)
+11 .L2:
+12 cmpl $9, -4(%rbp)
+13 jle .L3
+14 movl $0, %eax
+15 popq %rbp
+16 ret
+```
+
+1. `.text` - states that the following is the program code (text section)
+2. `.globl main` - makes the `main` function visible to the linker (global)
+3. `main:` - a label that can be used to reference this location in the code
+4. `pushq %rbp` - puts the base pointer (aka frame pointer) on the stack
+5. `movq %rsp, %rbp` - sets base pointer (register rbp) equal to stack pointer (register rsp)
+6. `movl $0, -4(%rbp)` - sets a "local automatic variable" to 0 in -4(%rbp) (local variable)
+7. `jmp .L2` - jump to label .L2
+8. `cmpl $9, -4(%rbp)` - compare the value in -4(%rbp) with 9 (checks if %rbp
+   <= 9 which is true in this case) Sign Flag is true now.
+9. `jle .L3` - jump to label .L3 if the previous comparison was less than or
+   equal (true)
+10. `addl $1, -4(%rbp)` - add 1 to the value in -4(%rbp) (increment by 1)
+11. `addl $1, -4(%rbp)` - add 1 to the value in -4(%rbp) (increment by 1)
+12. `movl $0, %eax` - sets a "general purpose register" (eax) to 0 (return value of main function)
+13. `popq %rbp` - pops the base pointer from the stack (removes the stack frame)
+14. `ret` - pops the return address from the top of the stack into IP which
+    causes the program to continue from where it was called

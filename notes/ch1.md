@@ -355,3 +355,14 @@ and it takes time to replace it with new data (-> we need to "warm up the cache"
 13. `popq %rbp` - pops the base pointer from the stack (removes the stack frame)
 14. `ret` - pops the return address from the top of the stack into IP which
     causes the program to continue from where it was called
+
+```c
+int main() {
+    int x = 0;
+    while(x <= 9) {
+        x++;
+        x++;
+    }
+    return 0;
+}
+```

@@ -169,9 +169,8 @@ switch*_)
 # 2.5 Review questions and problems
 
 1. What are the two main tasks of the OS?
-
+   > Virtualise (takes in a physical resource and transfroms into a more general, easy to use virtual form of itself)
    > Manage system resources and processes  
-   > Provide services to applications
 
 2. What are the design goals for the OS?
    > Virtualisation, reliability (stability). energy-effecting, security and performance

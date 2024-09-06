@@ -131,3 +131,99 @@ prompt>`
 Here, it **loads** code (and static data) from the given executable (`wc`)
 and **overwrites** the current code segment (and current static data) with
 it; essentially re-initializing the process with the new program.
+
+### 3.1.4 Why fork-exec?
+
+The `fork()/exec()` combination is a powerful way to create
+and manipulate processes
+
+### 3.1.5 Process Control and Users
+
+The `kill()` system call is used to send **signals** to a process (e.g.,
+pause, die, etc.)
+
+**users** can generally only control their own processes
+
+--
+
+## 3.2 Process Execution
+
+**time-sharing** created performance issues. The second is _control_: how can we ensure that one process doesn’t interfere with another?
+
+### 3.2.1 Limited Direct Execution
+
+To make a program run as fast as possible, **limited direct execution** is used. This means that the CPU runs the program’s instructions directly, without any intervention from the operating system.
+
+![direct-execution-protocol](assets/direct-execution-protocol.png)
+
+This approach (which is not _limited_) raises a few problems:
+
+- **security**: a user program could issue a privileged operation
+- **control**: how can we ensure that one process doesn’t interfere with another?
+
+**Trap instructions** are what's really "inside" a system call.
+
+We introduce the concept of **kernel mode** and **user mode**:
+
+- **user mode**: code that runs in user mode is restricted; e.g. the process
+  cannot issue I/O requests: doing so would raise an exception and the OS would
+  kill it.
+- **kernel mode**: code that runs in kernel mode can do anything it wants.
+
+But how can a process on user mode perform privileged operations?
+
+- by using **system calls**
+
+1. The program must execute a special **trap** instruction to switch to kernel mode.
+2. When finished, the OS calls a **return-from-trap** instruction to switch back to user mode.
+
+The hardware needs to be a bit careful; hence pushes the program counter, flags
+and other registers onto the **kernel stack**; then the "return-from-trap"
+instruction" will pop these values off the stack and restore the user process.
+
+How does the calling process know which code to run inside the OS?
+
+-> The kernel does so by using a **trap table** (also known as an interrupt vector table).
+
+- When booting up, the kernel tells the hardware what code to run when certain exceptional events occur.
+- That way the hardware knows the locations of these **trap handlers** with
+  special instructions.
+
+![limited-direct-execution](assets/limited-direct-execution.png)
+
+To specify exact system call, a **system call number** is used, such that the OS
+can verify if it's valid or not (a form of _protection_).
+
+### 3.2.2 Switching Between Processes
+
+When an application is, e.g., divides by zero, or tries to access undefined
+memory, it will **generate an trap** to the OS; then the OS will have control
+and will likely kill the offending process.
+
+That is the **passive approach** to switching between processes.
+
+However, what if the process are not cooperating?
+-> By using **timer interrupts**.
+
+> The timer device is programmed to raise an interrupt every ms and a
+> pre-configured interrupt handler in the OS is ran. Thus the OS has regained
+> control.
+
+In addition to creating trap table entries for system calls, the OS also
+**starts a timer** which is a privileged operation. Then it is safe for the OS
+to take control eventually (periodically) and switch to another process.
+
+#### Context Switch
+
+If the decision is made to switch to another process (made by the
+**scheduler**), then the OS executes low-level code to perform a **context switch**.
+
+1. The OS saves the current process's registers and memory mappings.
+2. The OS loads the new process's registers and memory mappings.
+3. The OS runs the new process.
+
+To save the context of the currently-running program, the OS will execute
+assembly code to save the general purpose registers, PC, and the kernel stack
+pointer and then restore said registers, PC and stack pointer for the new process.
+
+![limited-direct-execution-timer-interrupt](assets/limited-direct-execution-timer-interrupt.png)

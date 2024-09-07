@@ -134,6 +134,39 @@ it; essentially re-initializing the process with the new program.
 
 ### 3.1.4 Why fork-exec?
 
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+
+int main(int argc, char *argv[]) {
+int rc = fork();
+ if (rc < 0) {
+ // fork failed
+ fprintf(stderr, "fork failed\n");
+ exit(1);
+ } else if (rc == 0) {
+ // child: redirect standard output to a file
+ close(STDOUT_FILENO);
+ open("./p4.output", O_CREAT|O_WRONLY|O_TRUNC,
+ S_IRWXU);
+ // now exec "wc"...
+ char *myargs[3];
+ myargs[0] = strdup("wc"); // program: wc
+ myargs[1] = strdup("p4.c"); // arg: file to count
+ myargs[2] = NULL; // mark end of array
+ execvp(myargs[0], myargs); // runs word count
+ } else {
+ // parent goes down this path (main)
+ int rc_wait = wait(NULL);
+ }
+ return 0;
+
+```
+
 The `fork()/exec()` combination is a powerful way to create
 and manipulate processes
 
@@ -227,3 +260,16 @@ assembly code to save the general purpose registers, PC, and the kernel stack
 pointer and then restore said registers, PC and stack pointer for the new process.
 
 ![limited-direct-execution-timer-interrupt](assets/limited-direct-execution-timer-interrupt.png)
+
+# 3.3 Review questions and problems
+
+1. What is the purpose of system calls?
+
+- Abstracts the hardware and provides a way for user programs to interact with the OS.
+- Ensures that user programs cannot do anything they want (security).
+- Ensures that user programs cannot interfere with each other (control).
+
+2. Briefly describe the difference between asynchronous and asynchronous interrupts.
+
+- Sync: For instance when the user program divides by zero, and exception is raised and the OS takes control.
+- Async: For example when an I/O operation is completed, an interrupt is raised and the OS takes control.

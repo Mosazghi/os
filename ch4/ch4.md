@@ -174,3 +174,20 @@ Cache Affinity: Processes perform better when run on the same CPU repeatedly bec
 - RR with time quantum of 1 second
   Turnaround time: (300+500+600)/3 = 466
   Response time: (0+1+2)/3 = 1
+
+3. Process name Run time I/O frequency I/O time
+   P0 15 3 3
+   P1 25 5 3
+   P2 40 0 0
+
+- When P0 completes: it exist Q3
+- When P1 completes: it exist Q3
+- When P2 completes: it exist Q0
+- In which queue is P0 at time 15: Q3
+- Turnaround time for P1: 60
+- Avwerage turnaround time: (60+34+80)/3 = 58
+- Response time for P2: 8
+- average response time: (0+3+8)/3 = 3.67
+- Is the CPU busy all the time or idle as well? Always busy.
+- After P3 arrives at t = 10, and no I/O:
+  - average turnaround time: (36+70+90+(45−20))÷4 = 55.25

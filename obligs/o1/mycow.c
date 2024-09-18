@@ -15,9 +15,8 @@ int main(int argc, char *argv[]) {
       perror("execvp");
       exit(1);
     } else {
-      waitpid(pids[i - 1], NULL, 0);
+      // waitpid(pids[i - 1], NULL, 0);
     }
-    // int status;
   }
   return 0;
 }

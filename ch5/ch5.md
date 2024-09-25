@@ -225,7 +225,11 @@ Example:
 Explain how `0010 1101 1011 1010` is translated into a physical address.
 
 1. First we need to know the length of the offset bit.
+
    - 4KB = 4096 bytes = 2^12 bits
+   - OR just look at the highest index for the table -> 15; we need 4 bits for
+     the VPN
+
 2. Then we need to know the length of the VPN
 
    - 16 - 12 = 4 bits (first four bits)

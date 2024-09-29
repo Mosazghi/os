@@ -117,7 +117,7 @@ Example:
 
 ![external-frag](assets/external-frag.png)
 
-**Internal Fragmentation**: when a process is allocated more memory than it needs
+**Internal Fragmentation**: when a process is allocated more memorythan it needs
 
 ### Bitmap
 
@@ -137,6 +137,8 @@ With Paging, we achieve _flexibility_ and _efficiency_.
 (which the OS manages)
 
 -> Helps with storing address translations
+
+![paging](assets/paging.png)
 
 ### Translation
 

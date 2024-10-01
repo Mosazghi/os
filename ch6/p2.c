@@ -60,3 +60,12 @@ int main(int argc, char *argv[]) {
   free(random_index);
   return 0;
 }
+
+/*
+ *  Ved 4_000_000 * 4 = 16_000_000 (16MB) ser jeg redusert i hastighet fordi den
+ *  nærmerer seg L3 cache som er 18MB.
+ *
+ *  Ved 40_000_000 * 4 = 160_000_000 (160MB) ser jeg kraftig redusert hastighet
+ *  fordi den er langt over L3 cache (som betry at den må fetche fra memory).
+ *
+ * */

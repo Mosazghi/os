@@ -215,3 +215,54 @@ Algorithm:
 ## 6.6 Linux VM
 
 _kernel logical memory cannot be swapped to disk_
+
+## Review questions and problems
+
+1. In memory management, what do we mean with working set and thrashing?
+   - By working set we refer to the pages that are actively being used by a
+     process.
+   - _Thrashing_ occurs when the RAM is almost full and the systems invokes a
+     daemon that replaces pages in RAM with pages on disk.
+2. Which methods can we use to reduce the size of a pagetable in
+   memory?
+
+   - Multi-level page tables
+
+3. Affinity scheduling (”CPU pinning”) decreases the number cache misses. Does
+   it also decrease the number of TLB misses? Does it also decrease the number of
+   page faults? Justify your answer
+
+   - Aaffinity scheduling is about placing a thread on a CPU where it was running previous. It will also be able to reduce the number of TLB misses since TLB is present each CPU, but that doesn't help against page faults since the memory is shared between them all the CPUs. That is, if a page is in memory for one CPU, it is in memory for all CPUs.
+
+4. (KEY PROBLEM) Calculate the size of the bitmap in a page-based memory system with page size 4KB and physical memory of 512MB?
+   - 512*2^20 / 4*2^10 = 131,072 bits = 16,384 bytes
+5. (KEY PROBLEM) Assume 32-bit logical/virtual addresses, page size 4KB and two-level page table. Here are the first ten entries (and the last one) in the top-level table and in one of the second-level tables. The main part of each entry has been replaced by upper-case letters in the top-level table and lower-case letters in the second-level table.
+
+Top-level Second-level
++-----+---+ +-----+---+
+1023 | - | 0 | 1023 | g | 1 |
+. .
+. .
+. .
+10 | - | 0 | 10 | - | 0 |
+9 | A | 1 | 9 | - | 0 |  
+8 | E | 1 | 8 | s | 1 |
+7 | - | 0 | 7 | - | 0 |:W
+6 | - | 0 | 6 | b | 1 |
+5 | - | 0 | 5 | c | 1 |  
+4 | P | 1 | 4 | r | 1 |
+3 | - | 0 | 3 | k | 1 |  
+2 | C | 1 | 2 | - | 0 |
+1 | F | 1 | 1 | - | 0 |  
+0 | M | 1 | 0 | a | 1 |
++-----+---+ +-----+---+
+
+1. What is hidden behind the upper-case letter in the top-level table?
+   - PFN of second level table
+2. What is hidden behind the lower-case letter in the second-level table?
+   - The PFN of the page in physical memory
+3. What do you think is the meaning of the bits in the second column of each table?
+   - Present, if entry is absent or not
+4. Explain how the logical/virtual address `0000 0010 0100 0000 0110 1101 1011 1010` is translated to a physical address.
+
+![4](assets/4.png)

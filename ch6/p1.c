@@ -1,14 +1,16 @@
 #include <stdio.h>
 #define VPN_MASK 0xFFFFFFFFFFFFF000
 #define PTI_MASK 0x1FF
+#define PAGE_SIZE 4096 // ALT.
 
 int main() {
   int x = 10;
   unsigned long addr = (long)&x;
 
-  unsigned long VPN = (addr & VPN_MASK) >> 12;
+  unsigned long VPN =
+      (addr & VPN_MASK) >> 12; // Alt. (addr & ~(PAGE_SIZE - 1)) >> 12
 
-  unsigned long offset = (addr & ~VPN_MASK);
+  unsigned long offset = (addr & ~VPN_MASK); // Alt. (addr & ~PAGE_SIZE) >> 12
 
   unsigned long PTI = (VPN & PTI_MASK);
 

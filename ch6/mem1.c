@@ -31,3 +31,24 @@ int main(void) {
  * The size difference is 2304 KB - 1280 KB = 1024 KB = 2*10 * 20 * 2^10 B =
  * 2^20 B = 1 MB -- which is the size of the array.
  */
+
+/*
+ *
+ *
+ * Konklusjon:
+ *
+ * Prosessene tror de har VERT størrelse minne, men i virkeligheten har de ikke
+ * brukt alt de tror de vil bruke, dermed mem1_VIRT = mem2_VIRT
+ *
+ * Dette er "demand paging"-teknikken, minnet er ikke tildelt før det
+ * trengs å brukes
+ *
+ * Men i mem2.c er arrayet initialisert med verdier, så minnet er det
+ * brukt (initialisert) og minne er allokert, derav høyere RES enn mem1.c
+ *
+ *
+ * Størrelsesforskjellen er 2304 KB - 1280 KB = 1024 KB = 2*10 * 20 * 2^10 B =
+ * 2^20 B = 1 MB -- som er størrelsen på array.
+ */
+
+// assets / test.png

@@ -196,3 +196,46 @@ Another performance goal is to reduce **write amplification** (the amount of dat
 ## Summary
 
 ![summary](assets/summary.png)
+
+## Review Questions and Problems
+
+1. What is the difference between memory-mapped I/O and isolated I/O?
+
+   - Memory-mapped I/O uses the same address space as the memory, while isolated I/O uses a separate address space.
+
+   - Memory-mapped uses the same instructions as memory, while isolated I/O uses special I/O instructions.
+
+2. (KEY PROBLEM) On a hard drive, how many bytes are in a sector?
+   How long would you estimate it takes to fetch a 4KB block at a
+   random location on the disk if the disk has 2MB per track, is
+   15000rpm and has an average seek time of 3ms?
+
+   - 512 bytes or 4KB
+
+   - ![2](assets/2.png)
+
+3. What is the benefit of organizing disks in a RAID? How are the disks organized at RAID level 1? How are the disks organized at RAID level 5?
+
+   - Share data across multiple disks for performance and reliability.
+
+   - RAID 1: Mirrored
+     ![2024-10-21-19-16-15](assets/2024-10-21-19-16-15.png)
+   - RAID 5: Striped with parity
+     ![raid5](assets/raid5.png)
+
+4. (KEY PROBLEM) Explain the difference between HDD and SSD in terms of reading, writing/overwriting and deleting files. What is the point of the TRIM command?
+
+   - SSD: Reading requires to read _at least_ a page. Before writing you have to delete the block, then write. Deleting is done by erasing the block.
+   - HDD: Reading requires to move the disk arm, wait for the sector to rotate and then read. Writing requires to move the disk arm, wait for the sector to rotate and then write. Deleting is done by writing zeros to the sector.
+
+   - **TRIM**: Siden HDD og SSD ikke skjønner hva som kan slettes før OSet forsøker overskrive noe tar overskriving lang til p˚a SSD, dette skal løses med TRIM kommandoen som er en m˚ate for OSet ˚a gi SSD’n beskjed om at data kan slettes.
+
+5. Why is it beneficial that data is stored continuously (in sequence) on a HDD? Does this also apply to a SSD? Justify your answer.
+
+   - Because the disk arm can move to the next sector without having to wait for the disk to rotate. This does not apply to SSDs because there is no moving parts.
+
+6. (KEY PROBLEM) Run the command `iostat` on your linux. What is TPS? What is the difference between running just iostat and
+   iostat 1 ?
+
+- TPS: Transactions per second (IOPS)
+- `iostat` shows the average since boot, `iostat 1` shows the average for the last second.

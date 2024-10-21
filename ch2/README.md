@@ -17,8 +17,7 @@ _In short_: it takes physical resources, such as a CPU, memory, or disk, and vir
 Here the CPU is virtualised so that each process thinks it has the entire memory to itself.
 
 ```c
-#include <unistd.h>
-#include <stdio.h>
+#include <unistd.h> #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
 
@@ -166,11 +165,16 @@ registers; saved into its memory location; then by placing the contents of the
 registers back into the registers, the process can be restarted (_*context
 switch*_)
 
+## Summary
+
+![summary](../ch9/assets/summary.png)
+
 # 2.5 Review questions and problems
 
 1. What are the two main tasks of the OS?
+
    > Virtualise (takes in a physical resource and transfroms into a more general, easy to use virtual form of itself)
-   > Manage system resources and processes  
+   > Manage system resources and processes
 
 2. What are the design goals for the OS?
    > Virtualisation, reliability (stability). energy-effecting, security and performance
@@ -179,5 +183,10 @@ switch*_)
    > Jobs run in sequence by the operator (no user interaction)
 
 4. What information is in process list /table?
+
    > Contains information about all process in the system. Each entry is found
    > process control block (PCB) which contains information about a specific process
+
+## Summary
+
+![summary2](../ch9/assets/summary2.png)

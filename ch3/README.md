@@ -394,3 +394,7 @@ main(int argc, char *argv[])
     return 0;
 }
 ```
+
+## Summary
+
+![sumamry](../ch9/assets/sumamry.png)

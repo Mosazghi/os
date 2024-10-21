@@ -177,3 +177,22 @@ $\frac{ms}{1 request} = \frac{512 KB}{1 request} \cdot \frac{1 MB}{1024 KB} \cdo
 
 - **Wear out**: limited number of write cycles
 - **Disturbance**: when writing to a cell, the surrounding cells may be disturbed
+
+---
+
+![logical-diagram](assets/logical-diagram.png)
+
+- **FTL**: Flash Translation Layer (maps logical addresses to physical addresses)
+  - should be fast and reliable
+
+For even better performance, we can use **parallelism** of the flash chips.
+
+Another performance goal is to reduce **write amplification** (the amount of data written to the flash memory is more than the amount of data written by the host)
+
+**wear leveling**: spread out the writes over the entire disk to reduce wear out (done so by the _FTL_)
+
+**direct mapped FTL**: is bad in terms of performance and reliability.
+
+## Summary
+
+![summary](assets/summary.png)

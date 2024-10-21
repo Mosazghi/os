@@ -129,6 +129,8 @@ Rule 4 is rewritten as:
 
 ---
 
+## ![summary](../ch9/assets/summary.png)
+
 One issue is how to **parameterize** the scheduler. For example, how do we set the time quantum for Round Robin? How do we set the time period S for MLFQ? How do we set the priority boost? These are all parameters that can be set by the system administrator, but how do we choose good values for these parameters?
 
 ### 4.5 Fair Share Scheduling

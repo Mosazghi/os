@@ -1,5 +1,7 @@
 # 11. Virtualisation and Containers
 
+unikernel, sensitive/privileged instructions, trap-and-emulate, binary translation, basic blocks, paravirtualization, hardwaresupported virtualization, vmx/svm/ept/npt/vpid/asid/vt-d, shadow/guest/physical page table, page walk, CR3, cgroup, namespaces, union mounts, Docker
+
 ## 11.1 How much OS?
 
 To create several virtual servers, we need a software layer called **the hypervisor or virtual machine monitor (VMM)**. The hypervisor is responsible for managing the virtual servers and their resources. There are two types of hypervisors:

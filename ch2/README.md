@@ -17,7 +17,8 @@ _In short_: it takes physical resources, such as a CPU, memory, or disk, and vir
 Here the CPU is virtualised so that each process thinks it has the entire memory to itself.
 
 ```c
-#include <unistd.h> #include <stdio.h>
+#include <unistd.h> 
+#include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
 
@@ -45,12 +46,13 @@ with more than one of them alive at a time."
 
 ## 2.2 Design Goals
 
-OS design goals
-_Virtualisation_ create abstractions
-_Performance_ minimize overhead
-_Security_ protect/isolate applications (not harm each other)
-_Reliability_ stability (run non-stop)
-_Energy-efficient_ environmentally friendly
+OS design goals:
+
+* _Virtualisation_ create abstractions
+* _Performance_ minimize overhead
+* _Security_ protect/isolate applications (not harm each other)
+* _Reliability_ stability (run non-stop)
+* _Energy-efficient_ environmentally friendly
 
 ## 2.3 History
 
@@ -62,18 +64,18 @@ _System calls_ invented by Atlas computing systems.
 
 Before 1970
 
-- 1940-55 Direct machine code, moving wires
-- 1955-65 Simple OS’s, punchcards
-- 1965-70 Multics, IBM OS/360 (the mainframe)
+* 1940-55 Direct machine code, moving wires
+* 1955-65 Simple OS’s, punchcards
+* 1965-70 Multics, IBM OS/360 (the mainframe)
 
 Unix/Linux
 
-- Ken Thompson developed a stripped-down version of MULTICS on a PDP-7 he
+* Ken Thompson developed a stripped-down version of MULTICS on a PDP-7 he
   got hold of in 1969
-- A large number of flavors developed (SystemV or Berkely-based)
-- The GNU-project started in 1983 by Richard Stallman
-- Unified with POSIX interface specification in 1985
-- Minix in 1987 inspired Linus Torvalds to develop Linux (released in 1991)
+* A large number of flavors developed (SystemV or Berkely-based)
+* The GNU-project started in 1983 by Richard Stallman
+* Unified with POSIX interface specification in 1985
+* Minix in 1987 inspired Linus Torvalds to develop Linux (released in 1991)
 
 CHAPTER 2. OPERATING SYSTEMS AND PROCESSES
 2.3.2 Windows
@@ -108,11 +110,11 @@ _*Process*_ is an instance of a running program. It consists of the program code
 
 ### 2.4.1 Process API
 
-- _*Create*_: An OS must include some method to create/invoke a new process.
-- _*Destroy*_: An OS must include some method to destroy a process.
-- _*Wait*_: An OS must include some method to wait for a process to finish.
-- _*Miscellaneous*_: An OS must include other methods to manage processes.
-- _*Status*_: An OS must include some method to get the status of a process.
+* _*Create*_: An OS must include some method to create/invoke a new process.
+* _*Destroy*_: An OS must include some method to destroy a process.
+* _*Wait*_: An OS must include some method to wait for a process to finish.
+* _*Miscellaneous*_: An OS must include other methods to manage processes.
+* _*Status*_: An OS must include some method to get the status of a process.
 
 ![](assets/loading-program-to-process.png)
 
@@ -135,9 +137,9 @@ There are three (primarily) states a process can be in:
 
 ![](assets/process-states.png)
 
-- _*Running*_: The process is running on the CPU (executing instructions).
-- _*Ready*_: The process is waiting to run.
-- _*Blocked*_: The process is waiting for some event to occur (e.g. I/O).
+* _*Running*_: The process is running on the CPU (executing instructions).
+* _*Ready*_: The process is waiting to run.
+* _*Blocked*_: The process is waiting for some event to occur (e.g. I/O).
 
 Moving from ready to running means the process has been _*scheduled*_. Running
 to ready, the process has been _*descheduled*_.
@@ -149,8 +151,7 @@ With CPU and I/O:
 
 ![](assets/tracing-process-states-w-i/o.png)
 
-A **process list** contains information about all processes in the sys-
-tem. Each entry is found in what is sometimes called a _process
+A **process list** contains information about all processes in the system. Each entry is found in what is sometimes called a _process
 control block (PCB)_, which is really just a structure that contains
 information about a specific process.
 

@@ -12,14 +12,13 @@ To create several virtual servers, we need a software layer called **the hypervi
 
 A technique that all (_software based_) virtualisation solutions use is thus a **ring deprivileging**.
 
-![unikernel??](assets/unikernel??.png)
+![unikernel??](assets/unikernel.png)
 
 **Unikernel** is method for running an application directly on hardware without an operating system.
 
 > Unikernels are typically singel process applications where you compile
 > (or more correctly ”statically link”) just the functionality the application needs from
-> the operating system into the application binary. A Unikernel application can boot di-
-> rectly on hardware (or hypervisor). Unikernel operating systems are sometimes called
+> the operating system into the application binary. A Unikernel application can boot directly on hardware (or hypervisor). Unikernel operating systems are sometimes called
 > library operating systems, because the application as mentioned chooses the needed
 > components (libraries) from the operating system at the time it is being compiled and
 > built.
@@ -103,16 +102,32 @@ tilgang til kildekoden til...
 
 ![page-table](assets/page-table.png)
 
-### 115.1 Shadow Page Tables
+### 11.5.1 Shadow Page Tables (Software)
 
 ![shadow-page-tables](assets/shadow-page-tables.png)
 
 ![d](assets/d.png)
 This is costly because every memory access must be checked against the shadow page table.
 
+- Hver endring i guest page table må fanges opp, og det er ikke trivielt siden en
+prosess jo har lov til å skrive til minne (det forårsaker normalt ikke en trap).
+
+- Hver endring i guest page table gjør at page map og shadow page table må opp-
+dateres, noe som forårsaker overgang til hypervisoren, noe som er kostbart.
+
+- Hver endring i shadow page table (f.eks. oppdatering av references eller dirty bit
+i TLB, som deretter skriver til shadow page table) forårsaker også oppdateringer
+til page map og guest page table.
+
+### 11.5.2 Nested Page Tables (Hardware)
+
 Nested page tables:
 
 ![nested](assets/nested.png)
+Her bruker vi altså ikke shadow page tables, med hardware støtte så gjør vi altså ikke
+noe “kunstig” i software, vi lar løsningene muligens være suboptimale og søker heller
+rask hardware implementasjon av disse.
+Merk: vi mister altså den gule pilen, men vi får en bedre og mer optimal TLB.
 
 ## 11.6 Containers
 
@@ -131,6 +146,12 @@ Limits use of resources such as CPU, memory, disk I/O, and network.
 ### Security
 
 **supply chain security** is a big issue with containers: you don't know what you're getting.
+
+### Namespaces
+
+**Namespaces** are a way to isolate processes from each other.
+
+- PIDs, net, mount, ipc, ...
 
 # Review Questions and Problems
 
@@ -173,3 +194,8 @@ Limits use of resources such as CPU, memory, disk I/O, and network.
 8. Hva gjør du hvis tjenesten du kjører i en container er avhengig av å
    lagre data lokalt på disk?
    - Bruk en volume.
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

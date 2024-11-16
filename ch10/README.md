@@ -155,7 +155,9 @@ prompt> ls -l foo.txt
 - third three: everyone else (`r--`)
 
 **SetUID**: when a file is executed, it runs with the permissions of the file's owner.
+
 **SetGID**: when a file is executed, it runs with the permissions of the file's group.
+
 **Stick bit**: only the owner of the file can delete it.
 
 ### 10.1.8 `mkfs` and `mount`
@@ -274,3 +276,8 @@ Problem: **_They are too slow_**
 - `xargs tail -n 2`: get the last two lines of the file
 
 9. `find . -name "*.pdf" | wc -l` to print every pdf file in your disk..
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

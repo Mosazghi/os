@@ -10,9 +10,6 @@ security policy, CIA, secure systems design principles, reference monitor, ident
 
 - The OS enforces security policies (access control, etc.)
 
-  - Security policy: A set of rules that govern the behavior of a system
-  - The OS enforces these rules
-
 - The OS should **_limit/prevent_** damage from vulnerable software
 
 OS's are hard to secure because: Big, Complex, and Evolving
@@ -126,11 +123,14 @@ Address Space Layout Randomization (ASLR): Randomizes the location of the stack 
 
 4. On a Windows server, jens has a directory/folder prosjekter that should have
    the following access rules:
-   • jens and jonas should have full access
-   • Everyone in the group ap except for karita should have read access
-   • kristin and liv should have read access
 
-   - Jens: Full access, Read access; Jonas: Full access, ReadAccess; Karita (DENY)Full access; Liv: ReadAccess; Kristin: ReadAccess; ap: ReadAccess
+   - jens and jonas should have full access
+
+   - Everyone in the group ap except for karita should have read access
+
+   - kristin and liv should have read access
+
+   -> Jens: Full access, Read access; Jonas: Full access; Karita (DENY)Read Access; Liv: ReadAccess; Kristin: ReadAccess; ap: ReadAccess
 
 5. Consider the following session in Bash command line:
 
@@ -188,3 +188,8 @@ export MYSHELL=/bin/sh
 - second line: change the owner of the program to root
 - third line: set the setuid bit on the program
 - fourth line: export the path to the shell to be used in the program
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

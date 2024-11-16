@@ -277,7 +277,9 @@ _cache line_ - typically 64 bytes
 ### 1.4.2 Write Policies
 
 **Write-through** - write to cache line and immediately to memory
-**Write-back** - write to cache line and mark cache line as _dirty_
+
+**Write-back** - write to cache line and mark cache line as _dirty_ (i.e. contains data that has not been written to the next level data
+storage (RAM or a slower cache level) yet.)
 
 With _write-back_ the data is only written to memory when the cache line is to
 be over-written by another or in other cases such as **context switch** (to
@@ -295,8 +297,7 @@ cached the same data? How does one processor core know that no other processor c
 
 ![](assets/write-back.png)
 With write-back caching, we have to check whether the cache block (cache line) we
-want to write to is dirty, i.e. contains data that has not been written to the next level data
-storage (RAM or a slower cache level) yet. This applies to both read and write requests.
+want to write to is dirty. This applies to both read and write requests.
 Write through caching is the simplest and safest (since caching will only contain a copy
 of data that exists elsewhere), but if we want the system to give good performance for
 write requests (which we in most cases do), then we must use write-back caching

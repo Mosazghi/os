@@ -87,7 +87,7 @@ How to communicate with the device?
 
 ---
 
-How to fit ever device into the OS (each with its own interface)
+How to fit every device into the OS (each with its own interface)
 
 We used the good-old technique called **abstraction**:
 
@@ -195,8 +195,6 @@ Another performance goal is to reduce **write amplification** (the amount of dat
 
 ## Summary
 
-![summary](assets/summary.png)
-
 ## Review Questions and Problems
 
 1. What is the difference between memory-mapped I/O and isolated I/O?
@@ -225,10 +223,14 @@ Another performance goal is to reduce **write amplification** (the amount of dat
 
 4. (KEY PROBLEM) Explain the difference between HDD and SSD in terms of reading, writing/overwriting and deleting files. What is the point of the TRIM command?
 
-   - SSD: Reading requires to read _at least_ a page. Before writing you have to delete the block, then write. Deleting is done by erasing the block.
-   - HDD: Reading requires to move the disk arm, wait for the sector to rotate and then read. Writing requires to move the disk arm, wait for the sector to rotate and then write. Deleting is done by writing zeros to the sector.
+Reading, writing and erasing are the same (sector on HDD, and pages on SSD), the big one
+the difference is overwritten since SSDs must erase the contents of the cells before they can
+has been written to, and deletion can only take place on entire blocks. Since HDD and SSD do not
+understand what can be deleted before the operating system tries to overwrite something takes overwriting
+long on the SSD, this should be solved with the TRIM command, which is a way to
+The OS will notify the SSD that data may be deleted.
 
-   - **TRIM**: Siden HDD og SSD ikke skjønner hva som kan slettes før OSet forsøker overskrive noe tar overskriving lang til p˚a SSD, dette skal løses med TRIM kommandoen som er en m˚ate for OSet ˚a gi SSD’n beskjed om at data kan slettes.
+- **TRIM**: Siden HDD og SSD ikke skjønner hva som kan slettes før OSet forsøker overskrive noe tar overskriving lang til p˚a SSD, dette skal løses med TRIM kommandoen som er en m˚ate for OSet ˚a gi SSD’n beskjed om at data kan slettes.
 
 5. Why is it beneficial that data is stored continuously (in sequence) on a HDD? Does this also apply to a SSD? Justify your answer.
 
@@ -239,3 +241,8 @@ Another performance goal is to reduce **write amplification** (the amount of dat
 
 - TPS: Transactions per second (IOPS)
 - `iostat` shows the average since boot, `iostat 1` shows the average for the last second.
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

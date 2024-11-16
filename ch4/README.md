@@ -10,13 +10,16 @@ clock interrupt, preemptive vs non-preemptive, turnaround time, response time, w
 
 - _Each job runs for the same amount of time:_ This assumes that all processes have equal execution times, making it easier to design and analyze scheduling policies.
 
-- _All jobs arrive at the same time_: This simplifies the problem by assuming there is no need to manage different arrival times, which is often a complicating factor in real-world scheduling. _Once started, each job runs to completion:_ This assumption ignores preemption (where a job can be interrupted and resumed later) and allows for simpler continuous execution models.
+- _All jobs arrive at the same time_: This simplifies the problem by assuming there is no need to manage different arrival times, which is often a complicating factor in real-world scheduling.
+
+- _Once started, each job runs to completion:_ This assumption ignores preemption (where a job can be interrupted and resumed later) and allows for simpler continuous execution models.
 
 - _All jobs only use the CPU (i.e., they perform no I/O)_: This eliminates the complexity of handling jobs that may need to wait for input/output operations, focusing purely on CPU-bound tasks.
 
 - _The run-time of each job is known_: This assumes full knowledge of how long each job will take to execute, which simplifies the scheduling decisions but is unrealistic since job durations are not always predictable in practice.
 
 **Turnaround time (a performance metric) which is:**
+
 $$T_{Turnaround} = T_{completion} - T_{arrival}$$
 
 ### 4.1.1 FIFO
@@ -129,8 +132,6 @@ Rule 4 is rewritten as:
 
 ---
 
-## ![summary](../ch9/assets/summary.png)
-
 One issue is how to **parameterize** the scheduler. For example, how do we set the time quantum for Round Robin? How do we set the time period S for MLFQ? How do we set the priority boost? These are all parameters that can be set by the system administrator, but how do we choose good values for these parameters?
 
 ### 4.5 Fair Share Scheduling
@@ -193,3 +194,8 @@ Cache Affinity: Processes perform better when run on the same CPU repeatedly bec
 - Is the CPU busy all the time or idle as well? Always busy.
 - After P3 arrives at t = 10, and no I/O:
   - average turnaround time: (36+70+90+(45−20))÷4 = 55.25
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

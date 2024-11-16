@@ -117,7 +117,7 @@ Example:
 
 ![external-frag](assets/external-frag.png)
 
-**Internal Fragmentation**: when a process is allocated more memorythan it needs
+**Internal Fragmentation**: when a process is allocated more memory than it needs
 
 ### Bitmap
 
@@ -142,6 +142,7 @@ With Paging, we achieve _flexibility_ and _efficiency_.
 
 ### Translation
 
+![trans](assets/trans.png)
 To translate a virtual address to a physical address:
 
 Split into two parts: VPN (Virtual Page Number) and Offset
@@ -177,7 +178,11 @@ Example:
    - A bitmap is used to keep track of which pages are in use and which are free.
 2. What is in a pagetable entry? (in other words, what is the purpose each of the
    different bits or group of bits in a page table entry?)
-   - Se above
+   - Absent bit - is the page frame in memory or disk
+   - Protection bit - can the frame be read, written or executed
+   - Refernce bit - has the frame been read or written to?
+   - Dirty bit - has the page been modified
+   - Caching bit - should the page be cached?
 3. Which of the following tasks are handled by hardware (not by the
    operating system or by the process)?
 
@@ -205,24 +210,8 @@ Example:
 5. With 16-bits logical/virtual addresses, page size 4KB and this
    slightly simplified page table
    VPN PFN Present-bit
-   +------+---+
-   15 | 0000 | 0 |
-   14 | 0110 | 1 |
-   13 | 0111 | 1 |
-   12 | 1011 | 1 |
-   11 | 0000 | 0 |
-   10 | 0000 | 0 |
-   9 | 0010 | 1 |
-   8 | 0001 | 1 |
-   7 | 0000 | 0 |
-   6 | 0000 | 0 |
-   5 | 0000 | 0 |
-   4 | 0000 | 0 |
-   3 | 0000 | 0 |
-   2 | 1111 | 1 |
-   1 | 0011 | 1 |
-   0 | 1100 | 1 |
-   +----+---+
+
+![tab](assets/tab.png)
 
 Explain how `0010 1101 1011 1010` is translated into a physical address.
 
@@ -236,7 +225,14 @@ Explain how `0010 1101 1011 1010` is translated into a physical address.
 
    - 16 - 12 = 4 bits (first four bits)
 
-3. VPN Offset
-   0010 1101 1011 1010
+3. VPN | Offset
+
+   0010 | 1101 1011 1010
+
 4. VPN: 0010 = 2 (decimal) -> used as index in the page table -> PFN: 1111
 5. Put PFN + Offset together: 1111 1101 1011 1010
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

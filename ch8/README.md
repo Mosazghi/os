@@ -15,7 +15,6 @@ void thr_exit() {
   Pthread_mutex_lock(&m);
   done = 1;
   Pthread_cond_signal(&c);
-  Pthread_mutex_unlock(&m);
 }
 
  void *child(void *arg) {
@@ -354,3 +353,8 @@ int main(int argc, char *argv[]) {
 ```
 
 child 1 will run first, then child 2, then child 3, etc.
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>
+

@@ -10,7 +10,7 @@ To major issues with `Paging` are:
    - A part of the MMU
    - an _address-translation cache_ that stores the most recent translations
    - Such that the MMU can look up the translation in the TLB, instead of the page table (faster)
-2. The page table is to big (takes up too much space in RAM), let’s solve this with
+2. The page table is too big (takes up too much space in RAM), let’s solve this with
    one of
    - Multi-level page table (most used)
    - Inverted page table
@@ -180,6 +180,8 @@ Random is simple to implement but not very good in practice.
 
 LRU is hard to implement in practice but is very good.
 
+**NOTE: That is generates a new cache state each access**
+
 ### 6.4.4 Workload
 
 ![workload-no-locality](assets/workload-no-locality.png)
@@ -221,8 +223,8 @@ _kernel logical memory cannot be swapped to disk_
 1. In memory management, what do we mean with working set and thrashing?
    - By working set we refer to the pages that are actively being used by a
      process.
-   - _Thrashing_ occurs when the RAM is almost full and the systems invokes a
-     daemon that replaces pages in RAM with pages on disk.
+   - _Thrashing_ When a system spends most of its time swapping pages in and out of memory, rather than executing
+     code.
 2. Which methods can we use to reduce the size of a pagetable in
    memory?
 
@@ -238,24 +240,7 @@ _kernel logical memory cannot be swapped to disk_
    - 512*2^20 / 4*2^10 = 131,072 bits = 16,384 bytes
 5. (KEY PROBLEM) Assume 32-bit logical/virtual addresses, page size 4KB and two-level page table. Here are the first ten entries (and the last one) in the top-level table and in one of the second-level tables. The main part of each entry has been replaced by upper-case letters in the top-level table and lower-case letters in the second-level table.
 
-Top-level Second-level
-+-----+---+ +-----+---+
-1023 | - | 0 | 1023 | g | 1 |
-. .
-. .
-. .
-10 | - | 0 | 10 | - | 0 |
-9 | A | 1 | 9 | - | 0 |  
-8 | E | 1 | 8 | s | 1 |
-7 | - | 0 | 7 | - | 0 |:W
-6 | - | 0 | 6 | b | 1 |
-5 | - | 0 | 5 | c | 1 |  
-4 | P | 1 | 4 | r | 1 |
-3 | - | 0 | 3 | k | 1 |  
-2 | C | 1 | 2 | - | 0 |
-1 | F | 1 | 1 | - | 0 |  
-0 | M | 1 | 0 | a | 1 |
-+-----+---+ +-----+---+
+![p](../ch5/assets/p.png)
 
 1. What is hidden behind the upper-case letter in the top-level table?
    - PFN of second level table
@@ -266,3 +251,8 @@ Top-level Second-level
 4. Explain how the logical/virtual address `0000 0010 0100 0000 0110 1101 1011 1010` is translated to a physical address.
 
 ![4](assets/4.png)
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>

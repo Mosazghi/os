@@ -13,8 +13,9 @@ space.
 _Each thread has its own private set of registers it uses for computation_; thus, if there are two threads that are running on a single processor, when switching from running one (T1) to running the
 other (T2), a context switch must take place. The context switch between
 threads is quite similar to the context switch between processes, as the
-register state of T1 must be saved and the register state of T2 restored before running T2. With processes, we saved state to a process control block (PCB); now, we’ll need one or more **thread control blocks (TCBs)** to store the state of each thread of a process. stack
+register state of T1 must be saved and the register state of T2 restored before running T2. With processes, we saved state to a process control block (PCB); now, we’ll need one or more **thread control blocks (TCBs)** to store the state of each thread of a process.
 
+- stack
 - program counter / instruction pointer
 - state
 - registers
@@ -306,12 +307,9 @@ can trigger...
 
 1. What is stored in a thread control block (TCB)?
 
-- TID - thread ID
-- Stack Pointer
-- Program Counter
+- Location of stack  
 - State (running, ready, blocked)
 - Registers
-- Pointer to the process control block (PCB) of the process that the thread belongs to
 
 2. (**KEY PROBLEM**) Exercises in ch. 27
 
@@ -345,6 +343,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-## Summary
-
-![summary](../ch9/assets/summary.png)
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>
